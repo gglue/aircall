@@ -3,6 +3,9 @@ import {useState, useEffect} from 'react';
 import axios from "axios";
 import {Button, Card, Grid, SvgIcon} from "@mui/material";
 import ArchiveIcon from '@mui/icons-material/Archive';
+import UnarchiveIcon from '@mui/icons-material/Unarchive';
+import PhoneRow from "./PhoneRow.jsx";
+
 function Home(){
     const [phoneList, setList] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -20,26 +23,30 @@ function Home(){
         return(
             phoneList.map(phoneCall => (
                 <Grid item xs = {12}>
-                    <Card sx={{ minWidth: 275 }}>
-                    {phoneCall.from}
-                    </Card>
+                    <PhoneRow info={phoneCall}/>
                 </Grid>
             ))
         )
     }
 
     return(
-        <nav className="Home">
-            <Grid item xs ={12}>
-                <Button variant="outlined" sx={{color: 'black', borderColor: 'gray', textTransform: 'none', }}>
+        <Grid container justifyContent="center" alignItems="center" direction="row" className='App'>
+            <Grid item xs={6}>
+                <Button variant="outlined" fullWidth={true} sx={{color: 'black', borderColor: 'gray', textTransform: 'none', }}>
                     <SvgIcon component={ArchiveIcon} />
                     Archive all calls
+                </Button>
+            </Grid>
+            <Grid item xs={6}>
+                <Button variant="outlined" fullWidth={true} sx={{color: 'black', borderColor: 'gray', textTransform: 'none', }}>
+                    <SvgIcon component={UnarchiveIcon} />
+                    Un-archive all calls
                 </Button>
             </Grid>
             <Grid item xs = {12}>
                 {loading ? <div>Loading... </div> : printList()}
             </Grid>
-        </nav>
+        </Grid>
     );
 }
 
