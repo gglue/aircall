@@ -4,6 +4,7 @@ import Home from "./Home.jsx";
 import Header from "./Header.jsx";
 import {Button, Grid, SvgIcon} from "@mui/material";
 import ArchiveIcon from "@mui/icons-material/Archive";
+import Footer from "./Footer.jsx";
 
 function App(){
   return (
@@ -13,6 +14,7 @@ function App(){
                 <Routes>
                     <Route path ="/" element={<Home/>}></Route>
                 </Routes>
+                <Footer/>
             </div>
         </div>
 

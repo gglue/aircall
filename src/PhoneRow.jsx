@@ -35,10 +35,10 @@ function PhoneRow(props){
                     </b>
                     {callIcon === VoicemailIcon ?  <h1>Voicemail</h1> : <h1>tried to call on {props.info.to}</h1>}
                 </Grid>
-                <Grid item x={1}>
+                <Grid item xs>
                     <h1>{callDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</h1>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs>
                     <SvgIcon component={ArchiveIcon} />
                     <SvgIcon component={InfoIcon} />
                 </Grid>
