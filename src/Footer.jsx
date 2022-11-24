@@ -2,12 +2,16 @@ import {BottomNavigation, BottomNavigationAction} from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import React from "react";
+import {useLocation, useNavigate} from "react-router-dom";
 
 
 function Footer(props){
+    const location = useLocation();
+    const navigate = useNavigate();
     const handleChange = (e, newValue) =>{
         e.preventDefault();
         props.setMode(newValue);
+        if (!(location.pathname === '/')) navigate('/');
     }
     return(
         <BottomNavigation sx={{ position: 'absolute', right: 100, bottom: 0, borderTop: 1}} value={props.archiveMode} showLabels onChange={handleChange}>

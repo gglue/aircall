@@ -7,6 +7,7 @@ import ArchiveIcon from '@mui/icons-material/Archive';
 import VoicemailIcon from '@mui/icons-material/Voicemail';
 import UnarchiveIcon from '@mui/icons-material/Unarchive';
 import axios from "axios";
+import {Link} from 'react-router-dom';
 
 function PhoneRow(props){
     let callDate = new Date(props.info.created_at);
@@ -25,10 +26,10 @@ function PhoneRow(props){
         callIcon = VoicemailIcon;
     }
     else if (props.info.direction === "inbound"){
-        callIcon = CallReceivedIcon;
+        callIcon = CallMadeIcon;
     }
     else{
-        callIcon = CallMadeIcon;
+        callIcon = CallReceivedIcon;
     }
 
     function archiveRow(){
@@ -37,7 +38,6 @@ function PhoneRow(props){
             is_archived: !isArchived
         })
             .then(data => {
-                console.log(isArchived);
                 setArchived(!isArchived);
                 setVisible(false);
             });
@@ -45,21 +45,27 @@ function PhoneRow(props){
 
     return(
         isVisible ?
-        <Card variant="outlined" sx={{ minWidth: 374}}>
+        <Card variant="outlined" sx={{ minWidth: 374, pb: 1, pt: 1}}>
             <Grid container direction="row" spacing={1} justifyContent="flex-start" alignItems="center">
-                <Grid item xs={8}>
+                <Grid item xs={1}>
                     <b style={{color: missed ? "black" : "red"}}>
                         <SvgIcon component={callIcon} />
-                        {props.info.from}
                     </b>
-                    {callIcon === VoicemailIcon ?  <h1>Voicemail</h1> : <h1>tried to call on {props.info.to}</h1>}
+                </Grid>
+                <Grid item xs={7}>
+                    <b style={{color: missed ? "black" : "red"}}>
+                        {callIcon === VoicemailIcon ? <h1>Voicemail</h1> : <h1>{props.info.to}</h1>}
+                    </b>
+                    {missed ?  <h1>by {props.info.from}</h1> : <h1>tried to call on {props.info.via}</h1>}
                 </Grid>
                 <Grid item xs>
                     <h1>{callDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</h1>
                 </Grid>
                 <Grid item xs>
                     <SvgIcon className="phoneRow" onClick={() => {archiveRow()}} component={isArchived ? UnarchiveIcon : ArchiveIcon} />
-                    <SvgIcon className="phoneRow" onClick={() => {console.log('hello')}} component={InfoIcon} />
+                    <Link to="/id" state={{callID: callID}}>
+                        <SvgIcon sx={{color: '#1976d2'}} className="phoneRow" component={InfoIcon} />
+                    </Link>
                 </Grid>
 
             </Grid>
