@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
 import axios from "axios";
-import {Button, Card, Grid, SvgIcon} from "@mui/material";
+import {BottomNavigation, BottomNavigationAction, Button, Card, Grid, SvgIcon} from "@mui/material";
 import ArchiveIcon from '@mui/icons-material/Archive';
 import PhoneRow from "./PhoneRow.jsx";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -46,18 +46,23 @@ function Home(){
         })
         setLoading(true);
     }
+
+    const handleChange = (e, newValue) =>{
+        e.preventDefault();
+        setMode(newValue);
+    }
     return(
         <div>
             <Grid container justifyContent="center" alignItems="center" direction="row" className='App'>
                 <Grid item xs={12}>
                     {archiveMode ?
-                        <Button variant="outlined" fullWidth={true} onClick={() => {resetCall()}}
+                        <Button fullWidth={true} onClick={() => {resetCall()}}
                                 sx={{color: 'black', borderColor: 'gray', textTransform: 'none',}}>
                             <SvgIcon component={UnarchiveIcon}/>
                             Un-archive all calls
                         </Button>
                         :
-                        <Button variant="outlined" fullWidth={true} onClick={() => {archiveAll()}}
+                        <Button fullWidth={true} onClick={() => {archiveAll()}}
                                 sx={{color: 'black', borderColor: 'gray', textTransform: 'none',}}>
                             <SvgIcon component={ArchiveIcon}/>
                             Archive all calls
@@ -68,22 +73,18 @@ function Home(){
                     {loading ? null : printList()}
                 </Grid>
             </Grid>
-            <Grid container sx={{ position: 'absolute', bottom: 0}}>
-                <Grid item xs={6}>
-                    <Button variant="outlined" fullWidth={true} onClick={() => {setMode(false)}}
-                            sx={{color: 'black', borderColor: 'gray', textTransform: 'none',}}>
-                        <SvgIcon component={PhoneIcon}/>
-                        Call List
-                    </Button>
-                </Grid>
-                <Grid item xs={6}>
-                    <Button variant="outlined" fullWidth={true} onClick={() => {setMode(true)}}
-                            sx={{color: 'black', borderColor: 'gray', textTransform: 'none',}}>
-                        <SvgIcon component={InventoryIcon}/>
-                        Archives
-                    </Button>
-                </Grid>
-            </Grid>
+            <BottomNavigation sx={{ position: 'absolute', right: 100, bottom: 0, borderTop: 1}} value={archiveMode} showLabels onChange={handleChange}>
+                <BottomNavigationAction
+                    label="Call List"
+                    value={false}
+                    icon={<PhoneIcon/>}
+                />
+                <BottomNavigationAction
+                    label="Archives"
+                    value={true}
+                    icon={<InventoryIcon/>}
+                />
+            </BottomNavigation>
         </div>
     );
 }

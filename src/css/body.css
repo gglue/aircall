@@ -6,6 +6,10 @@ html, body, h1, h2, h3, ul, li {
   font-size: 100%;
 }
 
+.phoneRow{
+  cursor: pointer;
+}
+
 body {
   background: #233142;
   font-family: helvetica, arial, sans-serif;

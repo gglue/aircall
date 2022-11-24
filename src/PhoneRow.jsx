@@ -58,8 +58,8 @@ function PhoneRow(props){
                     <h1>{callDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</h1>
                 </Grid>
                 <Grid item xs>
-                    <SvgIcon onClick={() => {archiveRow()}} component={isArchived ? UnarchiveIcon : ArchiveIcon} />
-                    <SvgIcon onClick={() => {console.log('hello')}} component={InfoIcon} />
+                    <SvgIcon className="phoneRow" onClick={() => {archiveRow()}} component={isArchived ? UnarchiveIcon : ArchiveIcon} />
+                    <SvgIcon className="phoneRow" onClick={() => {console.log('hello')}} component={InfoIcon} />
                 </Grid>
 
             </Grid>
