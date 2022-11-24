@@ -5,6 +5,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import axios from "axios";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
 import ArchiveIcon from "@mui/icons-material/Archive";
+import {motion} from "framer-motion/dist/framer-motion";
 function PhoneCall(){
     const location = useLocation();
     const navigate = useNavigate();
@@ -55,7 +56,7 @@ function PhoneCall(){
                     <Paper>
                         <Typography variant="subtitle1">&nbsp;&nbsp;&nbsp;{callDate.toISOString().split('T')[0]}</Typography>
                         <Typography variant="body1">&nbsp;&nbsp;&nbsp;{callDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} <b>{callInfo.direction} call</b></Typography>
-                        <Typography variant="body1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{callInfo.duration} seconds</Typography>
+                        <Typography variant="body1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{callInfo.duration / 60} minutes {callInfo.duration % 60} seconds</Typography>
                     </Paper>
                 </Grid>
                 <Grid item xs={12}>
@@ -82,15 +83,17 @@ function PhoneCall(){
         )
     }
     return(
-        <Grid container alignItems="center" direction="row" className='App'>
-            <Grid item xs={12}>
-                <Button onClick={handleClick} sx={{color: '#1976d2', borderColor: 'gray', textTransform: 'none'}}>
-                    <SvgIcon component={ArrowBackIosIcon}/>
-                    Back
-                </Button>
+        <motion.div key="phone" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity: 0 }} transition={{delay:0.2}}>
+            <Grid container alignItems="center" direction="row" className='App'>
+                <Grid item xs={12}>
+                    <Button onClick={handleClick} sx={{color: '#1976d2', borderColor: 'gray', textTransform: 'none'}}>
+                        <SvgIcon component={ArrowBackIosIcon}/>
+                        Back
+                    </Button>
+                </Grid>
+                {loading ? null : printInfo()}
             </Grid>
-            {loading ? null : printInfo()}
-        </Grid>
+        </motion.div>
     );
 }
 
