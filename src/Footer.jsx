@@ -6,8 +6,11 @@ import {useLocation, useNavigate} from "react-router-dom";
 
 
 function Footer(props){
+    // Variables used to help redirect
     const location = useLocation();
     const navigate = useNavigate();
+
+    // Changes the viewing mode and if not on home page, go to home page
     const handleChange = (e, newValue) =>{
         e.preventDefault();
         props.setMode(newValue);

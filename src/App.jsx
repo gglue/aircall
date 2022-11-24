@@ -6,7 +6,10 @@ import Footer from "./Footer.jsx";
 import PhoneCall from "./PhoneCall.jsx";
 import {AnimatePresence} from "framer-motion/dist/framer-motion";
 function App(){
+    // This state is used to pass the current viewing mode (call list / archive) between child components
     const [archiveMode, setMode] = useState(false);
+
+    // This variable is used to track the current location so animations from framer-motion can work
     const location = useLocation();
     return (
         <div className = "container">

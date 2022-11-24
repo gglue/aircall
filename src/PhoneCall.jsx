@@ -7,14 +7,26 @@ import UnarchiveIcon from "@mui/icons-material/Unarchive";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import {motion} from "framer-motion/dist/framer-motion";
 function PhoneCall(){
+    // These variables are used to get to prop parameters from the parent component to see which call to get from API
     const location = useLocation();
-    const navigate = useNavigate();
     const {callID} = location.state;
+
+    // This variable is used to redirect user
+    const navigate = useNavigate();
+
+    // This state is used to hold the call information
     const [callInfo, setInfo] = useState(null);
+
+    // This state is used to display a placeholder element to wait for the useEffect() get request to finish
     const [loading, setLoading] = useState(true);
+
+    // This state is used to determine the status of archive/unarchive button
     const [isArchived, setArchive] = useState(false);
+
+    // This variable is used to determine the color of callee if it's a missed call
     let missed = true;
 
+    // At startup, load specific call from API into the state and let site know we're done loading
     useEffect(() => {
         axios.get('https://aircall-job.herokuapp.com/activities/' + callID)
             .then(res => {
@@ -24,11 +36,13 @@ function PhoneCall(){
             })
     }, []);
 
+    // Redirect back to home page when user clicks back button
     function handleClick(e){
         e.preventDefault();
         navigate('/');
     }
 
+    // Archives or Unarchived the current call, and changes the function of the button to the opposite after
     function flipStatus(){
         axios.post('https://aircall-job.herokuapp.com/activities/' + callID, {
             is_archived: !isArchived
@@ -37,6 +51,8 @@ function PhoneCall(){
                 setArchive(!isArchived);
             });
     }
+
+    // Create component for the call
     function printInfo(){
         let callDate = new Date(callInfo.created_at);
         if (callInfo.call_type === "missed"){

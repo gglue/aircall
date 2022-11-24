@@ -6,21 +6,31 @@ import ArchiveIcon from '@mui/icons-material/Archive';
 import PhoneRow from "./PhoneRow.jsx";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
 import {motion} from "framer-motion/dist/framer-motion";
+
 function Home(props){
+    // This state holds all the calls from the API
     const [phoneList, setList] = useState([]);
+
+    // This state is used to display a placeholder element to wait for the useEffect() get request to finish
     const [loading, setLoading] = useState(true);
+
+    // This variable is used to determine what viewing mode (Viewing either the call list or archives)
     const archiveMode = props.archiveMode;
+
+    // At startup, load all calls from API into the list and let site know we're done loading
     useEffect(() => {
         axios.get('https://aircall-job.herokuapp.com/activities')
         .then(res => {
             setList(res.data);
             setLoading(false);
         })
-    }, [archiveMode]);
+    }, [archiveMode]); // Only call function again when changing display modes
 
+    // Takes the call list and creates a component for each call
     function printList(){
         return(
             phoneList.map(phoneCall => (
+                // Only display calls that follow the current display mode
                 phoneCall.is_archived == archiveMode
                     ? (<Grid item xs = {12}><PhoneRow info={phoneCall}/> </Grid>)
                     : null
@@ -28,12 +38,14 @@ function Home(props){
         )
     }
 
+    // Sets all the calls in the API to non-archived
     function resetCall(){
         axios.get('https://aircall-job.herokuapp.com/reset').then(res => {
-            setLoading(true);
+            setLoading(true); // Empties the view
         })
     }
 
+    // Sets all the calls in the API to archived
     function archiveAll(){
         phoneList.map(phoneCall => {
             let uri = "https://aircall-job.herokuapp.com/activities/" + phoneCall.id;
@@ -41,7 +53,7 @@ function Home(props){
                 is_archived : true
             })
         })
-        setLoading(true);
+        setLoading(true); // Empties the view
     }
 
     return(

@@ -10,12 +10,24 @@ import axios from "axios";
 import {Link} from 'react-router-dom';
 
 function PhoneRow(props){
+    // This variable used to store the date of the call
     let callDate = new Date(props.info.created_at);
+
+    // This variable is used to determine if the color of the callee if it's a missed call
     let missed = true;
+
+    // This variable is used to determine the icon beside the phone number
     let callIcon;
+
+    // This variable is used to call the API for the individual call
     let callID = props.info.id;
+
+    // This state is used to set the call's archive status
     const [isArchived, setArchived] = useState(props.info.is_archived);
+
+    // This state is used to set the component's visibility
     const [isVisible, setVisible] = useState(true);
+
     // If miss call, turn text red
     if (props.info.call_type === "missed"){
         missed = false;
@@ -32,6 +44,7 @@ function PhoneRow(props){
         callIcon = CallReceivedIcon;
     }
 
+    // This function changes the call's archive status to the opposite and sets the component invisible
     function archiveRow(){
         let uri = "https://aircall-job.herokuapp.com/activities/" + callID;
         axios.post(uri, {
