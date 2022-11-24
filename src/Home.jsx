@@ -8,10 +8,10 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
 
-function Home(){
+function Home(props){
     const [phoneList, setList] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [archiveMode, setMode] = useState(false);
+    const archiveMode = props.archiveMode;
     useEffect(() => {
         axios.get('https://aircall-job.herokuapp.com/activities')
         .then(res => {
@@ -47,45 +47,27 @@ function Home(){
         setLoading(true);
     }
 
-    const handleChange = (e, newValue) =>{
-        e.preventDefault();
-        setMode(newValue);
-    }
     return(
-        <div>
-            <Grid container justifyContent="center" alignItems="center" direction="row" className='App'>
-                <Grid item xs={12}>
-                    {archiveMode ?
-                        <Button fullWidth={true} onClick={() => {resetCall()}}
-                                sx={{color: 'black', borderColor: 'gray', textTransform: 'none',}}>
-                            <SvgIcon component={UnarchiveIcon}/>
-                            Un-archive all calls
-                        </Button>
-                        :
-                        <Button fullWidth={true} onClick={() => {archiveAll()}}
-                                sx={{color: 'black', borderColor: 'gray', textTransform: 'none',}}>
-                            <SvgIcon component={ArchiveIcon}/>
-                            Archive all calls
-                        </Button>
-                    }
-                </Grid>
-                <Grid item xs = {12}>
-                    {loading ? null : printList()}
-                </Grid>
+        <Grid container justifyContent="center" alignItems="center" direction="row" className='App'>
+            <Grid item xs={12}>
+                {archiveMode ?
+                    <Button fullWidth={true} onClick={() => {resetCall()}}
+                            sx={{color: 'black', borderColor: 'gray', textTransform: 'none',}}>
+                        <SvgIcon component={UnarchiveIcon}/>
+                        Un-archive all calls
+                    </Button>
+                    :
+                    <Button fullWidth={true} onClick={() => {archiveAll()}}
+                            sx={{color: 'black', borderColor: 'gray', textTransform: 'none',}}>
+                        <SvgIcon component={ArchiveIcon}/>
+                        Archive all calls
+                    </Button>
+                }
             </Grid>
-            <BottomNavigation sx={{ position: 'absolute', right: 100, bottom: 0, borderTop: 1}} value={archiveMode} showLabels onChange={handleChange}>
-                <BottomNavigationAction
-                    label="Call List"
-                    value={false}
-                    icon={<PhoneIcon/>}
-                />
-                <BottomNavigationAction
-                    label="Archives"
-                    value={true}
-                    icon={<InventoryIcon/>}
-                />
-            </BottomNavigation>
-        </div>
+            <Grid item xs = {12}>
+                {loading ? null : printList()}
+            </Grid>
+        </Grid>
     );
 }
 
